@@ -3,32 +3,35 @@
 using namespace std;
 
 //Apuntadores a Funciones
+using Estilo = string(*)(const string&);
 
 string estiloFormal(string r) {
     return "Estimado usuario, " + r;
 };
 
 string estiloAmistoso(string r) {
-    return "Hey! " + r;
+    return "Hola! ^_____^ " + r;
 };
 
 //Manejo de Memoria Dinámica
 struct Nodo {
-    string texto;
+    string clave;
+    string respuesta;
     Nodo* siguiente;
 };
 
 //Crear nodo con new
-Nodo* crearNodo(const string& texto) {
+Nodo* crearNodo(const string& clave, const string& resp) {
     Nodo* nuevo = new Nodo;
-    nuevo->texto = texto;
+    nuevo->clave = clave;
+    nuevo->respuesta = resp;
     nuevo->siguiente = nullptr;
     return nuevo;
 }
 
 //Insertar el nuevo nodo
-void insertarFinal(Nodo*& cabeza, const string& texto) {
-    Nodo* nodo = crearNodo(texto);
+void insertarFinal(Nodo*& cabeza, const string& clave, const string& resp) {
+    Nodo* nodo = crearNodo(clave, resp);
     if (cabeza == nullptr) {
         cabeza = nodo;
     }
@@ -42,11 +45,21 @@ void insertarFinal(Nodo*& cabeza, const string& texto) {
     }
 }
 
+//Buscar clave en la lista
+Nodo* buscarClave(Nodo* cabeza, const string& clave) {
+    for (Nodo* p = cabeza; p != nullptr; p = p->siguiente) {
+        if (p->clave == clave) {
+            return p;
+        }
+    }
+    return nullptr;
+}
+
 //Mostrar lista
 void mostrarLista(Nodo* cabeza) {
     cout << "Contenido de la lista:" << endl;
     for (Nodo* p = cabeza; p != nullptr; p = p->siguiente) {
-        cout << "* " << p->texto << endl;
+        cout << "Clave: " << p->clave << endl;
     }
 
 }
@@ -65,13 +78,26 @@ void liberarMemoria(Nodo*& cabeza) {
 int main()
 {
     //Declaracion e Inicializacion de Punteros
-    int numero = 5;
-    int* ptr = &numero;
-    cout << "Valor apuntado: " << *ptr << endl;
+    int num = 5;
+    double dnum = 5.5;
+    int* pNum = &num;
+    double* pDouble = &dnum;
+    cout << "Valor puntero entero: " << *pNum << endl <<
+        "Tamaño de entero regular: " << sizeof(int) << endl <<
+        "Tamaño del puntero: " << sizeof(pNum) << endl;
+
+    cout << "Valor puntero decimal: " << *pDouble << endl <<
+        "Tamaño de double regular: " << sizeof(double) << endl <<
+        "Tamaño del puntero: " << sizeof(pDouble) << endl;
 
     //Arrays de Punteros
-    const char* respuestas[] = { "Hola, en que puedo ayudarte?","Estoy aprendiendo a responder.","Escribe tu pregunta de otra forma.","Consulta aceptada."
+    const char* saludos[] = { 
+        "Hola, como estas?",
+        "Buenos dias!",
+        "Que tal?",
+        "Holi!"
     };
+
     for (int i = 0; i < 4; ++i) {
         cout << respuestas[i] << endl;
     }
