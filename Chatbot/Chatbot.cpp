@@ -10,7 +10,7 @@ string estiloFormal(const string& r) {
 };
 
 string estiloAmistoso(const string& r) {
-    return "Hola! ^_____^ " + r;
+    return "☆*: .｡. o(≧▽≦)o .｡.:*☆ " + r;
 };
 
 //Manejo de Memoria Dinámica
@@ -83,12 +83,12 @@ int main()
     int* pNum = &num;
     double* pDouble = &dnum;
     cout << "Valor puntero entero: " << *pNum << endl <<
-        "Tamaño de entero regular: " << sizeof(int) << endl <<
-        "Tamaño del puntero: " << sizeof(pNum) << endl;
+        "Tamano de entero regular: " << sizeof(int) << endl <<
+        "Tamano del puntero: " << sizeof(pNum) << endl;
 
     cout << "Valor puntero decimal: " << *pDouble << endl <<
-        "Tamaño de double regular: " << sizeof(double) << endl <<
-        "Tamaño del puntero: " << sizeof(pDouble) << endl;
+        "Tamano de double regular: " << sizeof(double) << endl <<
+        "Tamano del puntero: " << sizeof(pDouble) << endl;
 
     //Arrays de Punteros y Aritmetica de Punteros
     const char* saludos[] = { 
