@@ -5,11 +5,11 @@ using namespace std;
 //Apuntadores a Funciones
 using Estilo = string(*)(const string&);
 
-string estiloFormal(string r) {
+string estiloFormal(const string& r) {
     return "Estimado usuario, " + r;
 };
 
-string estiloAmistoso(string r) {
+string estiloAmistoso(const string& r) {
     return "Hola! ^_____^ " + r;
 };
 
@@ -90,7 +90,7 @@ int main()
         "Tamaño de double regular: " << sizeof(double) << endl <<
         "Tamaño del puntero: " << sizeof(pDouble) << endl;
 
-    //Arrays de Punteros
+    //Arrays de Punteros y Aritmetica de Punteros
     const char* saludos[] = { 
         "Hola, como estas?",
         "Buenos dias!",
@@ -98,57 +98,60 @@ int main()
         "Holi!"
     };
 
-    for (int i = 0; i < 4; ++i) {
-        cout << respuestas[i] << endl;
-    }
-
-    //Aritmetica de Punteros
-    const char** p = respuestas;
+    cout << "Lista de saludos usando aritmetica de punteros:" << endl;
+    const char** p = saludos;
     for (int i = 0; i < 4; ++i) {
         cout << endl << *(p + i) << endl;
     }
 
-    //Sizeof
-    cout << endl << "sizeof(int): " << sizeof(int) << endl;
-    cout << "sizeof(ptr): " << sizeof(ptr) << endl;
-    cout << "sizeof(char): " << sizeof(char) << endl;
-    cout << "sizeof(double): " << sizeof(double) << endl;
-    cout << "sizeof(float): " << sizeof(float) << endl;
+    //Agregando respuestas a la lista
 
-    //Relación entre Arreglos y Punteros
-    int datos[] = { 1, 2, 3 };
-    int* pd = datos;
-    cout << endl;
-    cout << "pd[1]: " << pd[1] << endl; // es igual a datos[1]
-    cout << "*(pd + 2): " << *(pd + 2) << endl;
-    cout << "pd[2] + 2: " << pd[2] + 2 << endl;
-    cout << "pd[1] + 3: " << pd[1] + 3 << endl;
-    cout << endl;
-
-    //Apuntadores a Funciones
-
-    string(*responder)(string);
-    responder = estiloAmistoso;
-    cout << responder("bienvenido al sistema.") << endl;
-    responder = estiloFormal;
-    cout << responder("bienvenido al sistema.") << endl;
-    cout << endl;
-
-    // Memoria Dinámica y Lista Enlazada
     Nodo* lista = nullptr;
+    insertarFinal(lista, "hola", "Como puedo ayudarte?");
+    insertarFinal(lista, "adios", "Nos vemos luego!");
+    insertarFinal(lista, "gracias", "De nada!");
 
-    insertarFinal(lista, "Andrea");
-    insertarFinal(lista, "Paula");
-    insertarFinal(lista, "Sarahi");
+    //Elegir estilo de respuesta por puntero a función
+    int opc;
 
-    mostrarLista(lista);
+    Estilo responder;
+    cout << endl << "Elige el estilo de respuesta que prefieras:" << endl <<
+        "1. Formal" << endl <<
+        "2. Amistoso" << endl;
+    cin >> opc;
+    
+    if (opc == 1) {
+        responder = estiloFormal;
+    }
+    else {
+        responder = estiloAmistoso;
+    }
+
+    //Bucle principal
+
+    cout << endl << "Escribe una palabra clave o salir para terminar" << endl;
+    string entrada;
+
+    while (true) {
+        cout << "Tu: "; cin >> entrada;
+
+        if (entrada == "salir") {
+            break;
+        }
+
+        Nodo* nodo = buscarClave(lista, entrada);
+        if (nodo) {
+            cout << responder(nodo->respuesta) << endl;
+        }
+        else {
+            cout << responder("Lo siento, no entiendo esa clave.") << endl;
+        }
+    }
 
     liberarMemoria(lista);
     if (lista == nullptr) {
         cout << "Se libero la memoria" << endl;
     }
-
-    mostrarLista(lista);
 
     return 0;
 }
